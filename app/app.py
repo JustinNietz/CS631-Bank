@@ -25,15 +25,11 @@ app.config['MYSQL_DATABASE_HOST'] = 'db'
 app.config['MYSQL_DATABASE_USER'] = 'root'
 app.config['MYSQL_DATABASE_PASSWORD'] = 'root'
 app.config['MYSQL_DATABASE_PORT'] = 3306
-app.config['MYSQL_DATABASE_DB'] = 'homesData'
+app.config['MYSQL_DATABASE_DB'] = 'bankData'
 
 mysql.init_app(app)
 
 db = MySQL(app)
-
-@app.route('/send', methods=['GET', 'POST'])
-def send_grid():
-    return render_template('sendgrid.html')
 
 @app.route('/')
 def index():
@@ -47,23 +43,41 @@ def about_page():
 def team_page():
     return render_template('team.html')
 
-@app.route('/login', methods=['GET', 'POST'])
-def login_check():
+@app.route('/emplogin', methods=['GET', 'POST'])
+def emp_login_check():
     if request.method == 'POST':
         if 'username' in request.form and 'password' in request.form:
             username = request.form['username']
             password = request.form['password']
             cursor = mysql.get_db().cursor()
-            cursor.execute("SELECT * FROM tblloginImport WHERE email=%s AND password=%s", (username, password))
+            cursor.execute("SELECT * FROM employee WHERE EmpLogin=%s AND EmpPassword=%s", (username, password))
             info = cursor.fetchone()
             if info is not None:
-                if info['email'] == username and info['password'] == password:
+                if info['EmpLogin'] == username and info['EmpPassword'] == password:
                     session['loginsuccess'] = True
-                    return redirect(url_for("home_page"))
+                    return redirect(url_for("emp_home_page"))
             else:
-                return redirect(url_for("login_check"))
+                return redirect(url_for("emp_login_check"))
 
-    return render_template("login.html")
+    return render_template("emplogin.html")
+
+@app.route('/custlogin', methods=['GET', 'POST'])
+def cust_login_check():
+    if request.method == 'POST':
+        if 'username' in request.form and 'password' in request.form:
+            username = request.form['username']
+            password = request.form['password']
+            cursor = mysql.get_db().cursor()
+            cursor.execute("SELECT * FROM customer WHERE CustomerLogin=%s AND CustomerPassword=%s", (username, password))
+            info = cursor.fetchone()
+            if info is not None:
+                if info['CustomerLogin'] == username and info['CustomerPassword'] == password:
+                    session['loginsuccess'] = True
+                    return redirect(url_for("cust_home_page"))
+            else:
+                return redirect(url_for("cust_login_check"))
+
+    return render_template("custlogin.html")
 
 @app.route('/register', methods=['GET', 'POST'])
 def new_user():
@@ -87,14 +101,24 @@ def new_user():
             return redirect(url_for('send_grid'))
     return render_template("register.html")
 
-@app.route('/homepage', methods=['GET'])
-def home_page():
+@app.route('/emphomepage', methods=['GET'])
+def emp_home_page():
     if session['loginsuccess'] == True:
         user = {'username': 'Your'}
         cursor = mysql.get_db().cursor()
-        cursor.execute('SELECT * FROM tblhomesImport')
+        cursor.execute('SELECT * FROM employee')
         result = cursor.fetchall()
-        return render_template('dblist.html', title='Home', user=user, homes=result)
+        return render_template('empview.html', title='Home', user=user, homes=result)
+
+@app.route('/custhomepage', methods=['GET'])
+def cust_home_page():
+    if session['loginsuccess'] == True:
+        user = {'username': 'Your'}
+        cursor = mysql.get_db().cursor()
+        cursor.execute('SELECT * FROM customer')
+        result = cursor.fetchall()
+        return render_template('custview.html', title='Home', user=user, homes=result)
+
 
 @app.route('/logout')
 def logout():
