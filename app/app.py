@@ -31,17 +31,18 @@ mysql.init_app(app)
 
 db = MySQL(app)
 
+
 @app.route('/')
 def index():
     return render_template('index.html')
 
+@app.route('/send', methods=['GET', 'POST'])
+def account_success():
+    return render_template('accountsuccess.html')
+
 @app.route('/about')
 def about_page():
     return render_template('about.html')
-
-@app.route('/team')
-def team_page():
-    return render_template('team.html')
 
 @app.route('/emplogin', methods=['GET', 'POST'])
 def emp_login_check():
@@ -83,23 +84,23 @@ def cust_login_check():
 def new_user():
     if request.method == "POST":
         recipient = request.form['two']
-        msg = Message('Thanks for signing up to Homes!', recipients=[recipient])
-        msg.body = ('To login, please click here: '
-                    'localhost:5000')
-        msg.html = ('<h1>Thanks for signing up to Homes!</h1>'
-                    '<p>To login, please click here: '
-                    '<a clicktracking="off" href="http://localhost:5000/login">http://localhost:5000/login</a></p>')
-        mail.send(msg)
-        flash(f'An email was sent to {recipient}. Please verify your email to login.')
+        msg = Message('Thanks for signing up to CS631Bank!', recipients=[recipient])
         if "one" in request.form and "two" in request.form and "three" in request.form:
-            username = request.form['one']
-            email = request.form['two']
-            password = request.form['three']
+            customername = request.form['one']
+            cust_ssn = request.form['two']
+            city = request.form['three']
+            state = request.form['four']
+            zipcode = request.form['five']
+            streetnum = request.form['six']
+            username = request.form['seven']
+            password = request.form['eight']
             cursor = mysql.get_db().cursor()
-            cursor.execute('INSERT INTO tblloginImport(name, email, password)VALUES(%s,%s,%s)', (username, email, password))
+            cursor.execute('INSERT INTO customer(customer_ssn, city, state, zipcode, streetnum, customername, customerlogin, customerpassword)VALUES(%s,%s,%s,%s,%s,%s,%s,%s)', (cust_ssn, city, state, zipcode, streetnum, customername, username, password))
             mysql.get_db().commit()
-            return redirect(url_for('send_grid'))
+            return redirect(url_for('account_success'))
     return render_template("register.html")
+
+
 
 @app.route('/emphomepage', methods=['GET'])
 def emp_home_page():
@@ -142,7 +143,7 @@ def record_view(home_id):
     values.append(int(list(List.values())[0]) - int(list(Sell.values())[0]))
     cursor.execute('SELECT * FROM tblhomesImport WHERE id=%s', home_id)
     result = cursor.fetchall()
-    return render_template('view.html', title='Home Sell and List Prices with Profits Data', max=300, home=result[0], labels=labels, legend=legend, values=values)
+    return render_template('empview.html', title='Home Sell and List Prices with Profits Data', max=300, home=result[0], labels=labels, legend=legend, values=values)
 
 @app.route('/edit/<int:home_id>', methods=['GET'])
 def form_edit_get(home_id):

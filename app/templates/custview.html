@@ -1,23 +1,17 @@
-{% extends "layout.html" %}
+{% extends "emplayout.html" %}
 {% block content %}
 
 <h1> CUSTOMER</h1>
+
 <table class="table">
     <thead>
     <tr>
-        <th scope="col">Sell Price</th>
-        <th scope="col">List Price</th>
-        <th scope="col">Living</th>
-        <th scope="col">Rooms</th>
-        <th scope="col">Beds</th>
-        <th scope="col">Baths</th>
-        <th scope="col">Age</th>
-        <th scope="col">Acres</th>
-        <th scope="col">Taxes</th>
+        <th scope="col">Account Type</th>
+        <th scope="col">Amount</th>
     </tr>
     </thead>
     <tbody>
-    {% for home in homes %}
+    {% for bank in banks %}
     <tr>
         <td><a href="/view/{{home.id}}">{{ home.Sell }}</a></td>
         <td>{{ home.List }}</td>
