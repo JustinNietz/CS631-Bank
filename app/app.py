@@ -170,7 +170,7 @@ def form_insert_post():
     sql_insert_query = """INSERT INTO customer (customer_ssn, city, state, zipcode, streetnum, customername, customerlogin, customerpassword)  VALUES (%s, %s,%s, %s,%s, %s,%s, %s) """
     cursor.execute(sql_insert_query, inputData)
     mysql.get_db().commit()
-    return redirect("/", code=302)
+    return redirect("../emphomepage", code=302)
 
 
 @app.route('/delete/<int:customer_id>', methods=['POST'])
