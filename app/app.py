@@ -107,9 +107,9 @@ def emp_home_page():
     if session['loginsuccess'] == True:
         user = {'username': 'Your'}
         cursor = mysql.get_db().cursor()
-        cursor.execute('SELECT * FROM employee')
+        cursor.execute('SELECT * FROM customer')
         result = cursor.fetchall()
-        return render_template('empview.html', title='Home', user=user, homes=result)
+        return render_template('empview.html', title='Customer', user=user, customers=result)
 
 @app.route('/custhomepage', methods=['GET'])
 def cust_home_page():
@@ -126,45 +126,34 @@ def logout():
     session.pop('loginsuccess',None)
     return redirect(url_for('index'))
 
-@app.route('/view/<int:home_id>', methods=['GET'])
-def record_view(home_id):
-    legend = 'Home Sell and List Prices with Profits Data'
-    labels = [
-        'Sell Price', 'List Price', 'Profit'
-    ]
+@app.route('/view/<int:customer_id>', methods=['GET'])
+def record_view(customer_id):
     values = []
     cursor = mysql.get_db().cursor()
-    cursor.execute('SELECT Sell FROM tblhomesImport WHERE id=%s', home_id)
-    for Sell in cursor.fetchall():
-        values.append(list(Sell.values())[0])
-    cursor.execute('SELECT List FROM tblhomesImport WHERE id=%s', home_id)
-    for List in cursor.fetchall():
-        values.append(list(List.values())[0])
-    values.append(int(list(List.values())[0]) - int(list(Sell.values())[0]))
-    cursor.execute('SELECT * FROM tblhomesImport WHERE id=%s', home_id)
+    cursor.execute('SELECT * FROM customer WHERE Customer_SSN=%s', customer_id)
     result = cursor.fetchall()
-    return render_template('empview.html', title='Home Sell and List Prices with Profits Data', max=300, home=result[0], labels=labels, legend=legend, values=values)
+    return render_template('view.html', title='Customer', max=300, customer=result[0], values=values)
 
-@app.route('/edit/<int:home_id>', methods=['GET'])
-def form_edit_get(home_id):
+@app.route('/edit/<int:customer_id>', methods=['GET'])
+def form_edit_get(customer_id):
     cursor = mysql.get_db().cursor()
-    cursor.execute('SELECT * FROM tblhomesImport WHERE id=%s', home_id)
+    cursor.execute('SELECT * FROM customer WHERE Customer_SSN=%s', customer_id)
     result = cursor.fetchall()
-    return render_template('edit.html', title='Edit Form', home=result[0])
+    return render_template('edit.html', title='Edit Form', customer=result[0])
 
 
-@app.route('/edit/<int:home_id>', methods=['POST'])
-def form_update_post(home_id):
+@app.route('/edit/<int:customer_id>', methods=['POST'])
+def form_update_post(customer_id):
     cursor = mysql.get_db().cursor()
-    inputData = (request.form.get('Sell'), request.form.get('List'), request.form.get('Living'),
-                 request.form.get('Rooms'), request.form.get('Beds'),
-                 request.form.get('Baths'), request.form.get('Age'), request.form.get('Acres'),
-                 request.form.get('Taxes'), home_id)
-    sql_update_query = """UPDATE tblhomesImport t SET t.Sell = %s, t.List = %s, t.Living = %s, t.Rooms = 
-    %s, t.Beds = %s, t.Baths = %s, t.Age = %s, t.Acres = %s, t.Taxes = %s WHERE t.id = %s """
+    inputData = (request.form.get('City'), request.form.get('State'),
+                 request.form.get('ZipCode'), request.form.get('StreetNum'),
+                 request.form.get('CustomerName'), request.form.get('CustomerLogin'), request.form.get('CustomerPassword'),
+                 customer_id)
+    sql_update_query = """UPDATE customer t SET t.City = %s, t.State = %s, t.ZipCode = 
+    %s, t.StreetNum = %s, t.CustomerName = %s, t.CustomerLogin = %s, t.CustomerPassword = %s WHERE t.Customer_SSN = %s """
     cursor.execute(sql_update_query, inputData)
     mysql.get_db().commit()
-    return redirect("/", code=302)
+    return redirect('../view/' + str(customer_id), code=302)
 
 
 @app.route('/homes/new', methods=['GET'])

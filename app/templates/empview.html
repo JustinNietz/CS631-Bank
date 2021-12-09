@@ -5,29 +5,29 @@
 <table class="table">
     <thead>
     <tr>
-        <th scope="col">Sell Price</th>
-        <th scope="col">List Price</th>
-        <th scope="col">Living</th>
-        <th scope="col">Rooms</th>
-        <th scope="col">Beds</th>
-        <th scope="col">Baths</th>
-        <th scope="col">Age</th>
-        <th scope="col">Acres</th>
-        <th scope="col">Taxes</th>
+        <th scope="col">Customer Name</th>
+        <th scope="col">Customer_SSN</th>
+        <th scope="col">City</th>
+        <th scope="col">State</th>
+        <th scope="col">ZipCode</th>
+        <th scope="col">StreetNumber</th>
+        <th scope="col">Username</th>
+        <th scope="col">Password</th>
     </tr>
     </thead>
     <tbody>
-    {% for home in homes %}
+    {% for customer in customers %}
+
     <tr>
-        <td><a href="/view/{{home.id}}">{{ home.Sell }}</a></td>
-        <td>{{ home.List }}</td>
-        <td>{{ home.Living }}</td>
-        <td>{{ home.Rooms }}</td>
-        <td>{{ home.Beds }}</td>
-        <td>{{ home.Baths }}</td>
-        <td>{{ home.Age }}</td>
-        <td>{{ home.Acres }}</td>
-        <td>{{ home.Taxes }}</td>
+        <td><a href="/view/{{customer.Customer_SSN}}">{{ customer.CustomerName }}</a></td>
+         <td>{{ customer.Customer_SSN }}</td>
+        <td>{{ customer.City }}</td>
+        <td>{{ customer.State }}</td>
+        <td>{{ customer.ZipCode }}</td>
+        <td>{{ customer.StreetNum }}</td>
+        <td>{{ customer.CustomerLogin }}</td>
+        <td>{{ customer.CustomerPassword }}</td>
+
     </tr>
     {% endfor %}
     </tbody>
