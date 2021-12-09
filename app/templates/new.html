@@ -1,48 +1,49 @@
 {% extends "emplayout.html" %}
 {% block content %}
-<form action="/homes/new" method="POST">
+<form action="/customers/new" method="POST">
 <div class="row">
-        <div class="col">
-            <label for="Sell">Sell Price</label>
-            <input id="Sell" type="text" class="form-control" placeholder="Sell Price" name="Sell">
+            <div class="col">
+            <label for="SSN">City</label>
+            <input id="SSN" type="text" class="form-control" placeholder="City"
+                   name="Customer_SSN" value="">
         </div>
         <div class="col">
-            <label for="List">List Price</label>
-            <input id="List" type="text" class="form-control" placeholder="List Price" name="List">
+            <label for="List">City</label>
+            <input id="List" type="text" class="form-control" placeholder="City"
+                   name="City" value="">
         </div>
         <div class="col">
-            <label for="Living">Living</label>
-            <input id="Living" type="text" class="form-control" placeholder="Living" name="Living">
-        </div>
-    </div>
-    <div class="row">
-        <div class="col">
-            <label for="Rooms">Number of Rooms</label>
-            <input id="Rooms" type="text" class="form-control" placeholder="Number of Rooms" name="Rooms">
-        </div>
-        <div class="col">
-            <label for="Beds">Number of Beds</label>
-            <input id="Beds" type="text" class="form-control" placeholder="Number of Beds" name="Beds">
-        </div>
-        <div class="col">
-            <label for="Baths">Number of Baths</label>
-            <input id="Baths" type="text" class="form-control" placeholder="Number of Baths" name="Baths">
+            <label for="Living">State</label>
+            <input id="Living" type="text" class="form-control" placeholder="Living" name="State"
+                   value="">
         </div>
     </div>
     <div class="row">
         <div class="col">
-            <label for="Age">Age of Property</label>
-            <input id="Age" type="text" class="form-control" placeholder="Age of Property" name="Age">
+            <label for="Rooms">Zip Code</label>
+            <input id="Rooms" type="number" class="form-control" placeholder="Number of Rooms" name="ZipCode">
         </div>
         <div class="col">
-            <label for="Acres">Number of Acres</label>
-            <input id="Acres" type="text" class="form-control" placeholder="Number of Acres" name="Acres">
+            <label for="Beds">Street Number</label>
+            <input id="Beds" type="number" class="form-control" placeholder="Number of Beds" name="StreetNum">
         </div>
         <div class="col">
-            <label for="Taxes">Taxes</label>
-            <input id="Taxes" type="text" class="form-control" placeholder="Taxes" name="Taxes">
+            <label for="Baths">Customer Name</label>
+            <input id="Baths" type="text" class="form-control" placeholder="Number of Baths"
+                   name="CustomerName">
         </div>
     </div>
+    <div class="row">
+        <div class="col">
+            <label for="Age">Customer Login</label>
+            <input id="Age" type="text" class="form-control" placeholder="Age of Property" name="CustomerLogin">
+        </div>
+        <div class="col">
+            <label for="Acres">Customer Password</label>
+            <input id="Acres" type="password" class="form-control" placeholder="Number of Acres" name="CustomerPassword">
+        </div>
+    </div>
+
     <button type="submit" class="btn btn-success">Success</button>
 
 </form>

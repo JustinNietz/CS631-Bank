@@ -15,7 +15,7 @@
             </ul>
             <div class="card-body">
                 <a href="/edit/{{ customer.Customer_SSN  }}" class="card-link btn btn-primary">edit</a>
-                <form action="" method="post">
+                <form action="/delete/{{ customer.Customer_SSN }}" method="post">
                     <button type="submit" class="btn btn-danger">Delete</button>
                 </form>
             </div>

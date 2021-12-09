@@ -156,90 +156,89 @@ def form_update_post(customer_id):
     return redirect('../view/' + str(customer_id), code=302)
 
 
-@app.route('/homes/new', methods=['GET'])
+@app.route('/customers/new', methods=['GET'])
 def form_insert_get():
-    return render_template('new.html', title='New Homes Form')
+    return render_template('new.html', title='New Customers Form')
 
 
-@app.route('/homes/new', methods=['POST'])
+@app.route('/customers/new', methods=['POST'])
 def form_insert_post():
     cursor = mysql.get_db().cursor()
-    inputData = (request.form.get('Sell'), request.form.get('List'), request.form.get('Living'),
-                 request.form.get('Rooms'), request.form.get('Beds'),
-                 request.form.get('Baths'), request.form.get('Age'), request.form.get('Acres'),
-                 request.form.get('Taxes'))
-    sql_insert_query = """INSERT INTO tblhomesImport (Sell, List, Living, Rooms, Beds, Baths, Age, Acres, Taxes) VALUES (%s, %s,%s, %s,%s, %s,%s, %s, %s) """
+    inputData = (request.form.get('Customer_SSN'), request.form.get('City'), request.form.get('State'),
+                 request.form.get('ZipCode'), request.form.get('StreetNum'),
+                 request.form.get('CustomerName'), request.form.get('CustomerLogin'), request.form.get('CustomerPassword'))
+    sql_insert_query = """INSERT INTO customer (customer_ssn, city, state, zipcode, streetnum, customername, customerlogin, customerpassword)  VALUES (%s, %s,%s, %s,%s, %s,%s, %s) """
     cursor.execute(sql_insert_query, inputData)
     mysql.get_db().commit()
     return redirect("/", code=302)
 
 
-@app.route('/delete/<int:home_id>', methods=['POST'])
-def form_delete_post(home_id):
+@app.route('/delete/<int:customer_id>', methods=['POST'])
+def form_delete_post(customer_id):
     cursor = mysql.get_db().cursor()
-    sql_delete_query = """DELETE FROM tblhomesImport WHERE id = %s """
-    cursor.execute(sql_delete_query, home_id)
+    sql_delete_query = """DELETE FROM customer WHERE Customer_SSN = %s """
+    cursor.execute(sql_delete_query, customer_id)
     mysql.get_db().commit()
-    return redirect("/", code=302)
+    return redirect("../emphomepage", code=302)
 
 
-@app.route('/api/v1/homes', methods=['GET'])
-def api_browse() -> str:
-    cursor = mysql.get_db().cursor()
-    cursor.execute('SELECT * FROM tblhomesImport')
-    result = cursor.fetchall()
-    json_result = json.dumps(result);
-    resp = Response(json_result, status=200, mimetype='application/json')
-    return resp
+# @app.route('/api/v1/homes', methods=['GET'])
+# def api_browse() -> str:
+#     cursor = mysql.get_db().cursor()
+#     cursor.execute('SELECT * FROM tblhomesImport')
+#     result = cursor.fetchall()
+#     json_result = json.dumps(result);
+#     resp = Response(json_result, status=200, mimetype='application/json')
+#     return resp
 
 
-@app.route('/api/v1/homes/<int:home_id>', methods=['GET'])
-def api_retrieve(home_id) -> str:
-    cursor = mysql.get_db().cursor()
-    cursor.execute('SELECT * FROM tblhomesImport WHERE id=%s', home_id)
-    result = cursor.fetchall()
-    json_result = json.dumps(result);
-    resp = Response(json_result, status=200, mimetype='application/json')
-    return resp
-
-
-@app.route('/api/v1/homes/<int:home_id>', methods=['PUT'])
-def api_edit(home_id) -> str:
-    cursor = mysql.get_db().cursor()
-    content = request.json
-    inputData = (content['Sell'], content['List'], content['Living'],
-                 content['Rooms'], content['Beds'],
-                 content['Baths'], content['Age'], content['Acres'], content['Taxes'], home_id)
-    sql_update_query = """UPDATE tblhomesImport t SET t.Sell = %s, t.List = %s, t.Living = %s, t.Rooms = 
-    %s, t.Beds = %s, t.Baths = %s, t.Age = %s, t.Acres = %s, t.Taxes = %s WHERE t.id = %s """
-    cursor.execute(sql_update_query, inputData)
-    mysql.get_db().commit()
-    resp = Response(status=200, mimetype='application/json')
-    return resp
-
-
-@app.route('/api/v1/homes', methods=['POST'])
-def api_add() -> str:
-    content = request.json
-    cursor = mysql.get_db().cursor()
-    inputData = (content['Sell'], content['List'], content['Living'],
-                 content['Rooms'], content['Beds'],
-                 content['Baths'], content['Age'], content['Acres'], request.form.get('Taxes'))
-    sql_insert_query = """INSERT INTO tblhomesImport (Sell,List,Living,Rooms,Beds,Baths,Age,Acres,Taxes) VALUES (%s,%s,%s,%s,%s,%s,%s,%s,%s) """
-    cursor.execute(sql_insert_query, inputData)
-    mysql.get_db().commit()
-    resp = Response(status=201, mimetype='application/json')
-    return resp
-
-
-@app.route('/api/v1/homes/<int:home_id>', methods=['DELETE'])
-def api_delete(home_id) -> str:
-    cursor = mysql.get_db().cursor()
-    sql_delete_query = """DELETE FROM tblhomesImport WHERE id = %s """
-    cursor.execute(sql_delete_query, home_id)
-    mysql.get_db().commit()
-    resp = Response(status=210, mimetype='application/json')
-    return resp
+# @app.route('/api/v1/homes/<int:home_id>', methods=['GET'])
+# def api_retrieve(home_id) -> str:
+#     cursor = mysql.get_db().cursor()
+#     cursor.execute('SELECT * FROM tblhomesImport WHERE id=%s', home_id)
+#     result = cursor.fetchall()
+#     json_result = json.dumps(result);
+#     resp = Response(json_result, status=200, mimetype='application/json')
+#     return resp
+#
+#
+# @app.route('/api/v1/homes/<int:home_id>', methods=['PUT'])
+# def api_edit(home_id) -> str:
+#     cursor = mysql.get_db().cursor()
+#     content = request.json
+#     inputData = (content['Sell'], content['List'], content['Living'],
+#                  content['Rooms'], content['Beds'],
+#                  content['Baths'], content['Age'], content['Acres'], content['Taxes'], home_id)
+#     sql_update_query = """UPDATE tblhomesImport t SET t.Sell = %s, t.List = %s, t.Living = %s, t.Rooms =
+#     %s, t.Beds = %s, t.Baths = %s, t.Age = %s, t.Acres = %s, t.Taxes = %s WHERE t.id = %s """
+#     cursor.execute(sql_update_query, inputData)
+#     mysql.get_db().commit()
+#     resp = Response(status=200, mimetype='application/json')
+#     return resp
+#
+#
+# @app.route('/api/v1/homes', methods=['POST'])
+# def api_add() -> str:
+#     content = request.json
+#     cursor = mysql.get_db().cursor()
+#     inputData = (content['Sell'], content['List'], content['Living'],
+#                  content['Rooms'], content['Beds'],
+#                  content['Baths'], content['Age'], content['Acres'], request.form.get('Taxes'))
+#     sql_insert_query = """INSERT INTO tblhomesImport (Sell,List,Living,Rooms,Beds,Baths,Age,Acres,Taxes) VALUES (%s,%s,%s,%s,%s,%s,%s,%s,%s) """
+#     cursor.execute(sql_insert_query, inputData)
+#     mysql.get_db().commit()
+#     resp = Response(status=201, mimetype='application/json')
+#     return resp
+#
+#
+# @app.route('/api/v1/homes/<int:home_id>', methods=['DELETE'])
+# def api_delete(home_id) -> str:
+#     cursor = mysql.get_db().cursor()
+#     sql_delete_query = """DELETE FROM tblhomesImport WHERE id = %s """
+#     cursor.execute(sql_delete_query, home_id)
+#     mysql.get_db().commit()
+#     resp = Response(status=210, mimetype='application/json')
+#     return resp
 
 
 if __name__ == '__main__':
