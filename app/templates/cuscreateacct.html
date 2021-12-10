@@ -1,0 +1,51 @@
+{% extends "custlayout.html" %}
+{% block content %}
+<form action="/accounts/new" method="POST">
+<div class="row">
+            <div class="col">
+            <label for="SSN">City</label>
+            <input id="SSN" type="text" class="form-control" placeholder="City"
+                   name="Customer_SSN" value="">
+        </div>
+        <div class="col">
+            <label for="List">City</label>
+            <input id="List" type="text" class="form-control" placeholder="City"
+                   name="City" value="">
+        </div>
+        <div class="col">
+            <label for="Living">State</label>
+            <input id="Living" type="text" class="form-control" placeholder="Living" name="State"
+                   value="">
+        </div>
+    </div>
+    <div class="row">
+        <div class="col">
+            <label for="Rooms">Zip Code</label>
+            <input id="Rooms" type="number" class="form-control" placeholder="Number of Rooms" name="ZipCode">
+        </div>
+        <div class="col">
+            <label for="Beds">Street Number</label>
+            <input id="Beds" type="number" class="form-control" placeholder="Number of Beds" name="StreetNum">
+        </div>
+        <div class="col">
+            <label for="Baths">Customer Name</label>
+            <input id="Baths" type="text" class="form-control" placeholder="Number of Baths"
+                   name="CustomerName">
+        </div>
+    </div>
+    <div class="row">
+        <div class="col">
+            <label for="Age">Customer Login</label>
+            <input id="Age" type="text" class="form-control" placeholder="Age of Property" name="CustomerLogin">
+        </div>
+        <div class="col">
+            <label for="Acres">Customer Password</label>
+            <input id="Acres" type="password" class="form-control" placeholder="Number of Acres" name="CustomerPassword">
+        </div>
+    </div>
+
+    <button type="submit" class="btn btn-success">Success</button>
+
+</form>
+
+{% endblock %}

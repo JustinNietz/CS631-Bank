@@ -12,14 +12,14 @@ app = Flask(__name__)
 mysql = MySQL(cursorclass=DictCursor)
 app.secret_key = "123456"
 
-app.config['SECRET_KEY'] = 'top-secret!'
-app.config['MAIL_SERVER'] = 'smtp.sendgrid.net'
-app.config['MAIL_PORT'] = 587
-app.config['MAIL_USE_TLS'] = True
-app.config['MAIL_USERNAME'] = 'apikey'
-app.config['MAIL_PASSWORD'] = os.environ.get('SENDGRID_API_KEY')
-app.config['MAIL_DEFAULT_SENDER'] = 'nietzersche@gmail.com'
-mail = Mail(app)
+# app.config['SECRET_KEY'] = 'top-secret!'
+# app.config['MAIL_SERVER'] = 'smtp.sendgrid.net'
+# app.config['MAIL_PORT'] = 587
+# app.config['MAIL_USE_TLS'] = True
+# app.config['MAIL_USERNAME'] = 'apikey'
+# app.config['MAIL_PASSWORD'] = os.environ.get('SENDGRID_API_KEY')
+# app.config['MAIL_DEFAULT_SENDER'] = 'nietzersche@gmail.com'
+# mail = Mail(app)
 
 app.config['MYSQL_DATABASE_HOST'] = 'db'
 app.config['MYSQL_DATABASE_USER'] = 'root'
@@ -116,9 +116,9 @@ def cust_home_page():
     if session['loginsuccess'] == True:
         user = {'username': 'Your'}
         cursor = mysql.get_db().cursor()
-        cursor.execute('SELECT * FROM customer')
+        cursor.execute('SELECT * FROM customer_account')
         result = cursor.fetchall()
-        return render_template('custview.html', title='Home', user=user, homes=result)
+        return render_template('custacctview.html', title='Home', user=user, customer_accounts=result)
 
 
 @app.route('/logout')
@@ -127,12 +127,21 @@ def logout():
     return redirect(url_for('index'))
 
 @app.route('/view/<int:customer_id>', methods=['GET'])
-def record_view(customer_id):
+def record_view_customer(customer_id):
     values = []
     cursor = mysql.get_db().cursor()
     cursor.execute('SELECT * FROM customer WHERE Customer_SSN=%s', customer_id)
     result = cursor.fetchall()
-    return render_template('view.html', title='Customer', max=300, customer=result[0], values=values)
+    return render_template('empcustview.html', title='Customer', max=300, customer=result[0], values=values)
+
+@app.route('/custview/<int:account_num>', methods=['GET'])
+def record_view_account(account_num):
+    values = []
+    cursor = mysql.get_db().cursor()
+    cursor.execute('SELECT * FROM customer_account WHERE Account_Num=%s', account_num)
+    result = cursor.fetchall()
+    return render_template('custacctview.html', title='Customer', max=300, customer_account=result[0], values=values)
+
 
 @app.route('/edit/<int:customer_id>', methods=['GET'])
 def form_edit_get(customer_id):
@@ -158,7 +167,7 @@ def form_update_post(customer_id):
 
 @app.route('/customers/new', methods=['GET'])
 def form_insert_get():
-    return render_template('new.html', title='New Customers Form')
+    return render_template('empcreatecust.html', title='New Customers Form')
 
 
 @app.route('/customers/new', methods=['POST'])
