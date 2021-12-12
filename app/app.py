@@ -148,7 +148,7 @@ def form_edit_get(customer_id):
     cursor = mysql.get_db().cursor()
     cursor.execute('SELECT * FROM customer WHERE Customer_SSN=%s', customer_id)
     result = cursor.fetchall()
-    return render_template('edit.html', title='Edit Form', customer=result[0])
+    return render_template('empeditcust.html', title='Edit Form', customer=result[0])
 
 
 @app.route('/edit/<int:customer_id>', methods=['POST'])
