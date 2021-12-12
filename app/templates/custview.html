@@ -1,0 +1,24 @@
+{% extends "custlayout.html" %}
+{% block content %}
+
+<h1> CUSTOMER</h1>
+
+<table class="table">
+    <thead>
+    <tr>
+        <th scope="col">Account Number</th>
+        <th scope="col">Account Type</th>
+        <th scope="col">Balance</th>
+    </tr>
+    </thead>
+    <tbody>
+    {% for customer_account in customer_accounts %}
+    <tr>
+        <td><a href="/custview/{{customer_account.Account_Num}}">{{ customer_account.Account_Num }}</a></td>
+        <td>{{ customer_account.Account_Type }}</td>
+        <td>{{ customer_account.balance }}</td>
+    </tr>
+    {% endfor %}
+    </tbody>
+</table>
+{% endblock %}

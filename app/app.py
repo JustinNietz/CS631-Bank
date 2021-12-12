@@ -118,7 +118,7 @@ def cust_home_page():
         cursor = mysql.get_db().cursor()
         cursor.execute('SELECT * FROM customer_account')
         result = cursor.fetchall()
-        return render_template('custacctview.html', title='Home', user=user, customer_accounts=result)
+        return render_template('custview.html', title='Home', user=user, customer_accounts=result)
 
 
 @app.route('/logout')
