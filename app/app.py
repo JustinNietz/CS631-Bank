@@ -215,10 +215,10 @@ def form_insert_bal_get(account_id):
 @app.route('/changebal/<int:account_id>', methods=['POST'])
 def form_changeupdate_post(account_id):
     cursor = mysql.get_db().cursor()
-    inputData = (request.form.get('Account_Num'), request.form.get('Balance'), request.form.get('Transact_Code'),
+    inputData = (int(request.form.get('Account_Num')), request.form.get('Account_Type'), request.form.get('Transact_Code'), request.form.get('Transact_Type'),
                  request.form.get('Transact_Date'),
-                 request.form.get('Transact_withdrawal'), request.form.get('Transact_deposit'))
-    sql_update_query = """INSERT INTO banking_system (Account_Num, Balance, Transact_Code, Transact_Date,Transact_withdrawal, Transact_deposit) VALUES (%s,%s, %s,%s, %s * -1, %s)  """
+                 int(request.form.get('Transact_withdrawal')), int(request.form.get('Transact_deposit')), int(request.form.get('Balance')))
+    sql_update_query = """INSERT INTO banking_system (Account_Num, Account_Type, Transact_Code, Transact_Type, Transact_Date,Transact_withdrawal, Transact_deposit, Balance) VALUES (%s, %s , %s, %s, %s,%s * -1, %s , %s )  """
     cursor.execute(sql_update_query, inputData)
     mysql.get_db().commit()
     return redirect('../changebal/' + str(account_id), code=302)
