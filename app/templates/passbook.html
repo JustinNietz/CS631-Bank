@@ -5,9 +5,12 @@
 <table class="table">
     <thead>
     <tr>
-        <th scope="col">Account Number</th>
-        <th scope="col">Balance</th>
-        <th scope="col">Account_Type</th>
+        <th scope="col">Date</th>
+        <th scope="col">Transaction Code</th>
+        <th scope="col">Transact Name</th>
+        <th scope="col">Withdrawal</th>
+        <th scope="col">Deposit</th>
+         <th scope="col">Balance</th>
 
     </tr>
     </thead>
@@ -15,9 +18,12 @@
     {% for banking_system in banking_system %}
 
     <tr>
-        <td>{{ banking_system.Account_Num }}</td>
-         <td>{{ banking_system.Balance }}</td>
-        <td>{{ banking_system.Account_Type }}</td>
+        <td>{{ banking_system.Transact_Date }}</td>
+        <td>{{ banking_system.Transact_Code }}</td>
+        <td>{{ banking_system.Transact_Type }}</td>
+        <td>{{ banking_system.Transact_withdrawal }}</td>
+         <td>{{ banking_system.Transact_deposit }}</td>
+        <td>{{ banking_system.Balance }}</td>
 
 
     </tr>

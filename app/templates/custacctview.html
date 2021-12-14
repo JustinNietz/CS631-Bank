@@ -7,13 +7,13 @@
     <center>
 
         <div class="card" class="m-5 p-2">
-            <h5 class="card-title">Home #-{{ customer_account.Account_Num }}</h5>
+            <h5 class="card-title">Account #-{{ customer_account.Account_Num }}</h5>
             <ul class="list-group list-group-flush">
                 <li class="list-group-item">Type = {{ customer_account.Account_Type  }}</li>
-                 <li class="list-group-item">Type = {{ customer_account.Balance }}</li>
+                 <li class="list-group-item">Balance = {{ customer_account.Balance }}</li>
             </ul>
             <div class="card-body">
- <a href="/changebal/{{ customer_account.Account_Num  }}" class="card-link btn btn-primary">Transfers</a>
+ <a href="/changebal/{{ customer_account.Account_Num  }}" class="card-link btn btn-primary">Transactions</a>
                <a href="/passbook" class="card-link btn btn-primary">Print Passbook</a>
             </div>
         </div>

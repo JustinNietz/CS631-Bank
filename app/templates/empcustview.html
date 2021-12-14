@@ -7,9 +7,14 @@
     <center>
 
         <div class="card" class="m-5 p-2">
-            <h5 class="card-title">Home #-{{ customer.Customer_SSN }}</h5>
+            <h5 class="card-title">Name - {{ customer.CustomerName }}</h5>
             <ul class="list-group list-group-flush">
-                <li class="list-group-item">Customer = {{ customer.City  }}</li>
+                <li class="list-group-item">City = {{ customer.City  }}</li>
+                      <li class="list-group-item">State = {{ customer.State  }}</li>
+                      <li class="list-group-item">ZipCode = {{ customer.ZipCode  }}</li>
+                      <li class="list-group-item">Street Number = {{ customer.StreetNum  }}</li>
+                      <li class="list-group-item">Login = {{ customer.CustomerLogin  }}</li>
+                      <li class="list-group-item">Password = {{ customer.CustomerPassword  }}</li>
 
 
             </ul>

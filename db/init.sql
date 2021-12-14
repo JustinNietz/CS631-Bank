@@ -57,7 +57,7 @@ INSERT INTO accounts (Account_Num,Account_Type, Balance, Customer_SSN) VALUES
     (001, 'Checking', 1000, 1233431234);
 
 INSERT INTO transactions (Transact_Code, Transact_Type, Transact_Date, Service_Charge, Transact_withdrawal, Transact_deposit, Account_Num)  VALUES
- ('WD', 'Withdrawal', '09-05', null, 200, null, 001);
+ ('WD', 'Withdrawal', '09/05/21', null, -200, 0, 001);
 
 CREATE table customer_account as SELECT customer.Customer_SSN, `CustomerName`, `Account_Num`, `Account_Type`, `Balance` FROM customer, accounts WHERE accounts.Customer_SSN = customer.Customer_SSN;
 

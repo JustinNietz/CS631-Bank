@@ -10,7 +10,7 @@
         <div class="col">
             <label for="bal">Balance </label>
             <input id="bal" type="number" class="form-control" placeholder="Bal"#}
-                  name="Balance" value="{{banking_system.Balance}}">
+                  name="Balance" value="{{banking_system.Balance}}" readonly>
       </div>
         <div class="col">
 
@@ -27,14 +27,19 @@
         <div class="row">
         <div class="col">
 
-            <label for="code">Transact_Code</label>
-            <input id="code" type="text" class="form-control" placeholder="Withdraw"
+            <label for="code">Transact Code</label>
+            <input id="code" type="text" class="form-control" placeholder="SC / WD / CD"
                    name="Transact_Code" value="">
         </div>
         <div class="col">
             <label for="date">Date</label>
-            <input id="date" type="text" class="form-control" placeholder="Deposit" name="Transact_Date"
+            <input id="date" type="text" class="form-control" placeholder="12/13/21" name="Transact_Date"
                    value="">
+        </div>
+            <div class="col">
+            <label for="type">Transact Type</label>
+            <input id="type" type="text" class="form-control" placeholder="Checking" name="Transact_Type"
+                   value="" readonly>
         </div>
 
     </div>

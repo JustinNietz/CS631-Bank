@@ -40,10 +40,6 @@ def index():
 def account_success():
     return render_template('accountsuccess.html')
 
-@app.route('/about')
-def about_page():
-    return render_template('about.html')
-
 @app.route('/emplogin', methods=['GET', 'POST'])
 def emp_login_check():
     if request.method == 'POST':
