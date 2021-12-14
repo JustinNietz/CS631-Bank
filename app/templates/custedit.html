@@ -1,0 +1,48 @@
+{% extends "custlayout.html" %}
+{% block content %}
+<form action="/edit/{{customer_account.Account_Num}}" method="post">
+    <div class="row">
+        <div class="col">
+            <label for="List">City</label>
+            <input id="List" type="text" class="form-control" placeholder="City"
+                   name="City" value="{{customer.City}}">
+        </div>
+        <div class="col">
+            <label for="Living">State</label>
+            <input id="Living" type="text" class="form-control" placeholder="Living" name="State"
+                   value="{{customer.State}}">
+        </div>
+    </div>
+    <div class="row">
+        <div class="col">
+            <label for="Rooms">Zip Code</label>
+            <input id="Rooms" type="number" class="form-control" placeholder="Number of Rooms" name="ZipCode"
+                   value="{{customer.ZipCode}}">
+        </div>
+        <div class="col">
+            <label for="Beds">Street Number</label>
+            <input id="Beds" type="number" class="form-control" placeholder="Number of Beds" name="StreetNum"
+                   value="{{customer.StreetNum}}">
+        </div>
+        <div class="col">
+            <label for="Baths">Customer Name</label>
+            <input id="Baths" type="text" class="form-control" placeholder="Number of Baths"
+                   name="CustomerName" value="{{customer.CustomerName}}">
+        </div>
+    </div>
+    <div class="row">
+        <div class="col">
+            <label for="Age">Customer Login</label>
+            <input id="Age" type="text" class="form-control" placeholder="Age of Property" name="CustomerLogin"
+                   value="{{customer.CustomerLogin}}">
+        </div>
+        <div class="col">
+            <label for="Acres">Customer Password</label>
+            <input id="Acres" type="password" class="form-control" placeholder="Number of Acres" name="CustomerPassword"
+                   value="{{customer.CustomerPassword}}">
+        </div>
+    </div>
+    <button type="submit" class="btn btn-success">Save</button>
+
+</form>
+{% endblock %}

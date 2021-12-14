@@ -1,0 +1,43 @@
+{% extends "custlayout.html" %}
+{% block content %}
+<form action="/changebal/{{banking_system.Account_Num}}" method="post">
+    <div class="row">
+        <div class="col">
+            <label for="acct_num">Account Num </label>
+            <input id="acct_num" type="number" class="form-control" placeholder="City"
+                   name="Account_Num" value="{{banking_system.Account_Num}}" readonly>
+        </div>
+                <div class="col">
+            <label for="bal">Balance </label>
+            <input id="bal" type="number" class="form-control" placeholder="Bal"
+                   name="Balance" value="{{banking_system.Balance}}">
+        </div>
+        <div class="col">
+
+            <label for="sub">Withdrawal</label>
+            <input id="sub" type="number" class="form-control" placeholder="Withdraw"
+                   name="Transact_withdrawal" value="0">
+        </div>
+        <div class="col">
+            <label for="add">Deposit</label>
+            <input id="add" type="number" class="form-control" placeholder="Deposit" name="Transact_deposit"
+                   value="0">
+        </div>
+    </div>
+        <div class="row">
+        <div class="col">
+
+            <label for="code">Transact_Code</label>
+            <input id="code" type="text" class="form-control" placeholder="Withdraw"
+                   name="Transact_Code" value="">
+        </div>
+        <div class="col">
+            <label for="date">Date</label>
+            <input id="date" type="text" class="form-control" placeholder="Deposit" name="Transact_Date"
+                   value="">
+        </div>
+    </div>
+    <button type="submit" class="btn btn-success">Save</button>
+
+</form>
+{% endblock %}

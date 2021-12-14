@@ -142,14 +142,12 @@ def record_view_account(account_num):
     result = cursor.fetchall()
     return render_template('custacctview.html', title='Customer', max=300, customer_account=result[0], values=values)
 
-
 @app.route('/edit/<int:customer_id>', methods=['GET'])
 def form_edit_get(customer_id):
     cursor = mysql.get_db().cursor()
     cursor.execute('SELECT * FROM customer WHERE Customer_SSN=%s', customer_id)
     result = cursor.fetchall()
     return render_template('empeditcust.html', title='Edit Form', customer=result[0])
-
 
 @app.route('/edit/<int:customer_id>', methods=['POST'])
 def form_update_post(customer_id):
@@ -164,6 +162,26 @@ def form_update_post(customer_id):
     mysql.get_db().commit()
     return redirect('../view/' + str(customer_id), code=302)
 
+# @app.route('/custedit/<int:account_num>', methods=['GET'])
+# def form_edit_get(account_num):
+#     cursor = mysql.get_db().cursor()
+#     cursor.execute('SELECT * FROM customer_account WHERE Account_Num=%s', account_num)
+#     result = cursor.fetchall()
+#     return render_template('empeditcust.html', title='Edit Form', customer=result[0])
+#
+#
+# @app.route('/custedit/<int:customer_id>', methods=['POST'])
+# def form_update_post(customer_id):
+#     cursor = mysql.get_db().cursor()
+#     inputData = (request.form.get('City'), request.form.get('State'),
+#                  request.form.get('ZipCode'), request.form.get('StreetNum'),
+#                  request.form.get('CustomerName'), request.form.get('CustomerLogin'), request.form.get('CustomerPassword'),
+#                  customer_id)
+#     sql_update_query = """UPDATE customer t SET t.City = %s, t.State = %s, t.ZipCode =
+#     %s, t.StreetNum = %s, t.CustomerName = %s, t.CustomerLogin = %s, t.CustomerPassword = %s WHERE t.Customer_SSN = %s """
+#     cursor.execute(sql_update_query, inputData)
+#     mysql.get_db().commit()
+#     return redirect('../view/' + str(customer_id), code=302)
 
 @app.route('/customers/new', methods=['GET'])
 def form_insert_get():
@@ -176,8 +194,11 @@ def form_insert_post():
     inputData = (request.form.get('Customer_SSN'), request.form.get('City'), request.form.get('State'),
                  request.form.get('ZipCode'), request.form.get('StreetNum'),
                  request.form.get('CustomerName'), request.form.get('CustomerLogin'), request.form.get('CustomerPassword'))
-    sql_insert_query = """INSERT INTO customer (customer_ssn, city, state, zipcode, streetnum, customername, customerlogin, customerpassword)  VALUES (%s, %s,%s, %s,%s, %s,%s, %s) """
+    inputData2 = (request.form.get('Customer_SSN'), request.form.get('CustomerName'), request.form.get('Account_Num'), request.form.get('Account_Type'), request.form.get('Balance'))
+    sql_insert_query2 = """INSERT INTO customer_account (Customer_SSN, CustomerName, Account_Num, Account_Type, Balance) VALUES (%s, %s,%s, %s,%s)"""
+    sql_insert_query = """INSERT INTO customer (customer_ssn, city, state, zipcode, streetnum, customername, customerlogin, customerpassword) VALUES (%s, %s,%s, %s,%s, %s,%s, %s)"""
     cursor.execute(sql_insert_query, inputData)
+    cursor.execute(sql_insert_query2, inputData2)
     mysql.get_db().commit()
     return redirect("../emphomepage", code=302)
 
@@ -189,6 +210,27 @@ def form_delete_post(customer_id):
     cursor.execute(sql_delete_query, customer_id)
     mysql.get_db().commit()
     return redirect("../emphomepage", code=302)
+
+@app.route('/changebal/<int:account_id>', methods=['GET'])
+def form_insert_bal_get(account_id):
+    cursor = mysql.get_db().cursor()
+    cursor.execute('SELECT * FROM banking_system WHERE Account_Num=%s', account_id)
+    result = cursor.fetchall()
+    return render_template('bankingsystem.html', title='New Customers Form', banking_system=result[0])
+
+@app.route('/changebal/<int:account_id>', methods=['POST'])
+def form_changeupdate_post(account_id):
+    cursor = mysql.get_db().cursor()
+    inputData = (request.form.get('Account_Num'), request.form.get('Transact_Code'),
+                 request.form.get('Transact_Date'),
+                 request.form.get('Transact_withdrawal'), request.form.get('Transact_deposit'))
+    inputData2 = (request.form.get('Balance'), request.form.get('Transact_deposit'))
+    sql_update_query = """INSERT INTO banking_system (Account_Num, Transact_Code, Transact_Date,Transact_withdrawal, Transact_deposit) VALUES (%s, %s, %s, %s, %s)  """
+    sql_update_query2 = """UPDATE banking_system t SET t.Balance = Balance + Transact_deposit"""
+    cursor.execute(sql_update_query2, inputData2)
+    cursor.execute(sql_update_query, inputData)
+    mysql.get_db().commit()
+    return redirect('../changebal/' + str(account_id), code=302)
 
 
 # @app.route('/api/v1/homes', methods=['GET'])
