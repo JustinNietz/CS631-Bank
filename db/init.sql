@@ -12,7 +12,7 @@ CREATE TABLE IF NOT EXISTS employee (
 );
 
 CREATE TABLE IF NOT EXISTS customer (
-    `Customer_SSN` VARCHAR(45) NOT NULL,
+    `Customer_SSN` INT NOT NULL,
     `City` VARCHAR(45) NULL,
     `State` VARCHAR(45) NULL,
     `ZipCode` INT NULL,
@@ -30,7 +30,7 @@ CREATE TABLE IF NOT EXISTS accounts
     `Account_Num`  INT NOT NULL,
     `Account_Type` VARCHAR(45),
     `Balance`      INT NULL,
-    `Customer_SSN` VARCHAR(45) NOT NULL,
+    `Customer_SSN` INT NOT NULL,
     PRIMARY KEY (`Account_Num`),
     FOREIGN KEY (`Customer_SSN`) REFERENCES customer (`Customer_SSN`)
 );
@@ -51,10 +51,10 @@ INSERT INTO employee (employee_ssn, empname, empphonenum, emplogin, emppassword,
     (333-43-5948, 'Justin N', 732-618-0053, 'JNietzer', 'hello', 001);
 
 INSERT INTO customer (Customer_SSN, City, State, ZipCode, StreetNum, CustomerName, CustomerLogin, CustomerPassword, Employee_SSN) VALUES
-    ('123-444-3234', 'Freehold', 'NJ', 07728, 13, 'George', 'Gworld', 'test', 333-43-5948 );
+    (1233431234, 'Freehold', 'NJ', 07728, 13, 'George', 'Gworld', 'test', 333-43-5948 );
 
 INSERT INTO accounts (Account_Num,Account_Type, Balance, Customer_SSN) VALUES
-    (001, 'Checking', 1000, '123-444-3234');
+    (001, 'Checking', 1000, 1233431234);
 
 INSERT INTO transactions (Transact_Code, Transact_Type, Transact_Date, Service_Charge, Transact_withdrawal, Transact_deposit, Account_Num)  VALUES
  ('WD', 'Withdrawal', '09-05', null, 200, null, 001);

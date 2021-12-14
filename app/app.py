@@ -84,7 +84,6 @@ def cust_login_check():
 def new_user():
     if request.method == "POST":
         recipient = request.form['two']
-        msg = Message('Thanks for signing up to CS631Bank!', recipients=[recipient])
         if "one" in request.form and "two" in request.form and "three" in request.form:
             customername = request.form['one']
             cust_ssn = request.form['two']
@@ -187,7 +186,6 @@ def form_update_post(customer_id):
 def form_insert_get():
     return render_template('empcreatecust.html', title='New Customers Form')
 
-
 @app.route('/customers/new', methods=['POST'])
 def form_insert_post():
     cursor = mysql.get_db().cursor()
@@ -221,16 +219,20 @@ def form_insert_bal_get(account_id):
 @app.route('/changebal/<int:account_id>', methods=['POST'])
 def form_changeupdate_post(account_id):
     cursor = mysql.get_db().cursor()
-    inputData = (request.form.get('Account_Num'), request.form.get('Transact_Code'),
+    inputData = (request.form.get('Account_Num'), request.form.get('Balance'), request.form.get('Transact_Code'),
                  request.form.get('Transact_Date'),
                  request.form.get('Transact_withdrawal'), request.form.get('Transact_deposit'))
-    inputData2 = (request.form.get('Balance'), request.form.get('Transact_deposit'))
-    sql_update_query = """INSERT INTO banking_system (Account_Num, Transact_Code, Transact_Date,Transact_withdrawal, Transact_deposit) VALUES (%s, %s, %s, %s, %s)  """
-    sql_update_query2 = """UPDATE banking_system t SET t.Balance = Balance + Transact_deposit"""
-    cursor.execute(sql_update_query2, inputData2)
+    sql_update_query = """INSERT INTO banking_system (Account_Num, Balance, Transact_Code, Transact_Date,Transact_withdrawal, Transact_deposit) VALUES (%s,%s, %s,%s, %s * -1, %s)  """
     cursor.execute(sql_update_query, inputData)
     mysql.get_db().commit()
     return redirect('../changebal/' + str(account_id), code=302)
+
+@app.route('/passbook', methods=['GET'])
+def passbook_home_page():
+        cursor = mysql.get_db().cursor()
+        cursor.execute('SELECT * FROM banking_system')
+        result = cursor.fetchall()
+        return render_template('passbook.html', title='Customer',  banking_system=result)
 
 
 # @app.route('/api/v1/homes', methods=['GET'])

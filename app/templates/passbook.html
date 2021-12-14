@@ -1,0 +1,27 @@
+{% extends "custlayout.html" %}
+{% block content %}
+
+<h1>EMPLOYEE</h1>
+<table class="table">
+    <thead>
+    <tr>
+        <th scope="col">Account Number</th>
+        <th scope="col">Balance</th>
+        <th scope="col">Account_Type</th>
+
+    </tr>
+    </thead>
+    <tbody>
+    {% for banking_system in banking_system %}
+
+    <tr>
+        <td>{{ banking_system.Account_Num }}</td>
+         <td>{{ banking_system.Balance }}</td>
+        <td>{{ banking_system.Account_Type }}</td>
+
+
+    </tr>
+    {% endfor %}
+    </tbody>
+</table>
+{% endblock %}
